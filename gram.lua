@@ -17,20 +17,20 @@ gs = {
       self.parts[2] = {xs[3], xs[4]}
       self.parts[3] = {xs[5], xs[6]}
     end,
-    gen = function(self, max_length)
+    gen = function(self, tgt_length)
       -- rand length 
-      tgt_length = flr(rnd(max_length))
+      -- tgt_length = flr(rnd(max_length))
       str = ""
       for i=0,tgt_length do
         -- pick one of the first chars 
         str = str..self.parts[(i % 3) + 1][flr(rnd(2))+1]
-        printh(str)
       end 
       return str
     end,
     check = function(self, xs)
       for k,v in pairs(xs) do 
-        if not elem(v, self.parts[(k-1 % 3) + 1]) then 
+        if not elem(v, self.parts[((k-1) % 3) + 1]) then 
+          -- printh("Couldnt find "..v.." in parts "..((k - 1) % 3))
           return false
         end
       end
