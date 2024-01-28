@@ -45,10 +45,6 @@ player = {
       self.direction = 3
     end
 
-    if btn(4) or btn(5) then
-      change_state(STATE_SHOWTIME)
-    end
-
     if btn() > 0 then
       self.frame_ttl -= dt
       if self.frame_ttl < 0 then
