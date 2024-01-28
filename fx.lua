@@ -1,3 +1,4 @@
 fx = {
   parts = {},
+  stars = {},
 }

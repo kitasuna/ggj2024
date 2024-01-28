@@ -7,6 +7,10 @@ function _showtime_draw()
   cls()
   palt(11, true)
 
+  for k, v in pairs(fx.stars) do 
+    pset(v.x, v.y, 7)
+  end
+
   map(0,0,8,24,14,13)
 
   -- input guy
@@ -37,6 +41,10 @@ function _explore_draw()
   
   palt(11, true)
 
+  for k, v in pairs(fx.stars) do 
+    pset(v.x, v.y, 7)
+  end
+
   map(0,0,8,24,14,13)
 
   -- player
@@ -49,6 +57,9 @@ function _explore_draw()
   rect(32,17,94,22,7)
   -- 60 px wide
   rectfill(33,18,93 - (SHOWTIME_TIMER - _showtime_remaining_timer),21,14)
+
+  print("press ❎ or 🅾️ ", 30, 115, 14)
+  print("to start showtime!", 30, 121, 14)
 
   foreach(fx.parts, function(p)
     p:draw()
@@ -88,6 +99,14 @@ end
 function _explore_update(dt)
   local bits = btn()
 
+  if rnd() > 0.7 then
+    add(fx.stars, {x=130, y=flr(rnd(120)), dx=rnd()})
+  end
+
+  for k, v in pairs(fx.stars) do 
+    v.x -= v.dx
+  end
+
   player:update(bits, dt)
   baddie_mngr:update(dt, player.x + 4, player.y + 4)
 
@@ -105,6 +124,14 @@ function _explore_update(dt)
 end
 
 function _showtime_update(dt)
+  if rnd() > 0.7 then
+    add(fx.stars, {x=130, y=flr(rnd(120)), dx=rnd()})
+  end
+
+  for k, v in pairs(fx.stars) do 
+    v.x -= v.dx
+  end
+
   _showtime_current_timer -= dt
   if _showtime_current_timer < 0 then
     change_state(STATE_GAMEOVER)
@@ -194,6 +221,9 @@ end
 
 function _title_draw()
   cls()
+  for k, v in pairs(fx.stars) do 
+    pset(v.x, v.y, 7)
+  end
   map(20,0,24,30,11,4)
   print("press any button to start", 18, 90, 14)
 
@@ -202,6 +232,14 @@ end
 function _title_update()
   if btnp(4) or btnp(5) then
     change_state(STATE_EXPLORE)
+  end
+
+  if rnd() > 0.7 then
+    add(fx.stars, {x=130, y=flr(rnd(120)), dx=rnd()})
+  end
+
+  for k, v in pairs(fx.stars) do 
+    v.x -= v.dx
   end
 end
 
