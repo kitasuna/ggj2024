@@ -32,7 +32,7 @@ function _showtime_draw()
   -- 60 px wide
   rectfill(33,18,93 - (SHOWTIME_TIMER - _showtime_current_timer),21,14)
 
-  print("score: ".._score, 84, 122)
+  dshad("score: ".._score, 84, 122, 7, 8)
   palt()
 end
 
@@ -58,8 +58,8 @@ function _explore_draw()
   -- 60 px wide
   rectfill(33,18,93 - (SHOWTIME_TIMER - _showtime_remaining_timer),21,14)
 
-  print("press ❎ or 🅾️ ", 30, 115, 14)
-  print("to start showtime!", 30, 121, 14)
+  dshad("press ❎ or 🅾️ ", 30, 115, 7, 8)
+  dshad("to start showtime!", 30, 121, 7, 8)
 
   foreach(fx.parts, function(p)
     p:draw()
@@ -73,10 +73,10 @@ function _gameover_draw()
 
   palt(11, true)
 
-  print("bravo!", 48, 32, 14)
-  print("score: ".._score, 48, 40, 14)
+  dshad("bravo!", 48, 32, 7, 8)
+  dshad("score: ".._score, 48, 40, 7, 8)
 
-  print("grammar solution!", 32, 72, 12)
+  dshad("grammar solution!", 32, 72, 12, 1)
   gs[1]:explain(32, 82)
 
   palt()
@@ -225,7 +225,7 @@ function _title_draw()
     pset(v.x, v.y, 7)
   end
   map(20,0,24,30,11,4)
-  print("press any button to start", 18, 90, 14)
+  dshad("press any button to start", 18, 90, 7, 8)
 
 end
 
@@ -267,3 +267,7 @@ function change_state(new_state)
 
 end
 
+function dshad(str, x, y, clr_main, clr_shad)
+  print(str, x+1, y, clr_shad)
+  print(str, x, y, clr_main)
+end
