@@ -8,10 +8,10 @@ function _showtime_draw()
   palt(11, true)
 
   for k, v in pairs(fx.stars) do 
-    pset(v.x, v.y, 7)
+    pset(v.x, v.y, rnd() > 0.9 and 10 or 7)
   end
 
-  map(0,0,8,24,14,13)
+  map(0,0,16,24,14,13)
 
   -- input guy
   input:draw(6, 112)
@@ -28,9 +28,10 @@ function _showtime_draw()
   spr(75, _showtime_mic_params[_showtime_hero_index + 1], 114, 1, 1, _showtime_hero_index == 1 and true or false)
 
   -- time limit
-  rect(32,17,94,22,7)
-  -- 60 px wide
-  rectfill(33,18,93 - (SHOWTIME_TIMER - _showtime_current_timer),21,14)
+  rect(8,84,13,24,7)
+  -- 60 px high
+  rectfill(9,83,12,25 + (SHOWTIME_TIMER - _showtime_current_timer),14)
+  dshad("time",0,86,7,5)
 
   dshad("score: ".._score, 84, 122, 7, 8)
   palt()
@@ -42,10 +43,10 @@ function _explore_draw()
   palt(11, true)
 
   for k, v in pairs(fx.stars) do 
-    pset(v.x, v.y, 7)
+    pset(v.x, v.y, rnd() > 0.9 and 10 or 7)
   end
 
-  map(0,0,8,24,14,13)
+  map(0,0,16,24,14,13)
 
   -- player
   player:draw()
@@ -54,9 +55,10 @@ function _explore_draw()
   baddie_mngr:draw()
 
   -- time limit
-  rect(32,17,94,22,7)
-  -- 60 px wide
-  rectfill(33,18,93 - (SHOWTIME_TIMER - _showtime_remaining_timer),21,14)
+  rect(8,84,13,24,7)
+  -- 60 px high
+  rectfill(9,83,12,25 + (SHOWTIME_TIMER - _showtime_remaining_timer),14)
+  dshad("time",0,86,7,5)
 
   dshad("press "..BUTTON_X.." or "..BUTTON_O, 30, 115, 7, 8)
   dshad("to start showtime!", 30, 121, 7, 8)
@@ -222,7 +224,7 @@ end
 function _title_draw()
   cls()
   for k, v in pairs(fx.stars) do 
-    pset(v.x, v.y, 7)
+    pset(v.x, v.y, rnd() > 0.9 and 1 or 7)
   end
   map(20,0,24,30,11,4)
   dshad("press "..BUTTON_X.." or "..BUTTON_O.." to start", 18, 90, 7, 8)
