@@ -1,8 +1,7 @@
 -- Char[] -> Char[]
 function shuffle(tbl)
   for i = #tbl, 2, -1 do 
-    print("1", 16 + i*4, 16)
-    local j = rnd(i)
+    local j = flr(rnd(i)) + 1
     tbl[i], tbl[j] = tbl[j], tbl[i]
   end
   return tbl
@@ -40,6 +39,11 @@ gs = {
       printh("self.p1: "..self.parts[1][1]..","..self.parts[1][2])
       printh("self.p2: "..self.parts[2][1]..","..self.parts[2][2])
       printh("self.p3: "..self.parts[3][1]..","..self.parts[3][2])
+    end,
+    explain = function(self, x, y)
+      print("first: "..self.parts[1][1].." or "..self.parts[1][2], x, y)
+      print("second: "..self.parts[2][1].." or "..self.parts[2][2], x, y+10)
+      print("third: "..self.parts[3][1].." or "..self.parts[3][2], x, y+20)
     end
   }
 }

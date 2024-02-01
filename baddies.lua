@@ -26,7 +26,10 @@ baddie_mngr = {
     for k, v in pairs(self.baddies) do 
       spr(7 + v.frame, v.x, v.y, 1, 1, v.flip)  
       if v.speak then
-        print(v.message, v.x - 4, v.y - 5, 7)
+        -- line()
+        rect(v.x-9, v.y-8, v.x + 15 + ((#v.message - 2) * 6) + 1, v.y, 7)
+        rectfill(v.x-8, v.y-7, v.x+15 + ((#v.message - 2) * 6), v.y-1, 14)
+        print(v.message, v.x - 4 - ((#v.message - 2)), v.y - 6, 7)
       end
 
       if v.reaction_ttl > 0 then
@@ -65,6 +68,12 @@ baddie_mngr = {
         if dist < 12 then
           v.speak = true
           if v.spoke == false then
+            -- set up some parts to test
+            -- x pos -> y pos -> vx -> vy -> colors -> start size -> ttl
+            printh("showtime remaining:".._showtime_remaining_timer)
+            for i=0,20 do 
+              add(fx.parts, new_part(90 - (60 - _showtime_remaining_timer), 16, 1, -2, {7,8,14}, 2, 0.8))
+            end
             v.spoke = true
             _showtime_remaining_timer -= 2 * #v.message 
           end
