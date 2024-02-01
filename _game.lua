@@ -58,7 +58,7 @@ function _explore_draw()
   -- 60 px wide
   rectfill(33,18,93 - (SHOWTIME_TIMER - _showtime_remaining_timer),21,14)
 
-  dshad("press ❎ or 🅾️ ", 30, 115, 7, 8)
+  dshad("press "..BUTTON_X.." or "..BUTTON_O, 30, 115, 7, 8)
   dshad("to start showtime!", 30, 121, 7, 8)
 
   foreach(fx.parts, function(p)
@@ -225,7 +225,7 @@ function _title_draw()
     pset(v.x, v.y, 7)
   end
   map(20,0,24,30,11,4)
-  dshad("press any button to start", 18, 90, 7, 8)
+  dshad("press "..BUTTON_X.." or "..BUTTON_O.." to start", 18, 90, 7, 8)
 
 end
 

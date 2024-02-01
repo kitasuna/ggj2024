@@ -2,6 +2,7 @@ pico-8 cartridge // http://www.pico-8.com
 version 41
 __lua__
 -- comment
+#include const.lua
 #include _game.lua
 #include baddies.lua
 #include fleas.lua
