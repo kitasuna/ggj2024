@@ -41,9 +41,9 @@ gs = {
       printh("self.p3: "..self.parts[3][1]..","..self.parts[3][2])
     end,
     explain = function(self, x, y)
-      print("first: "..self.parts[1][1].." or "..self.parts[1][2], x, y)
-      print("second: "..self.parts[2][1].." or "..self.parts[2][2], x, y+10)
-      print("third: "..self.parts[3][1].." or "..self.parts[3][2], x, y+20)
+      dshad("first: "..self.parts[1][1].." or "..self.parts[1][2], x, y, 12, 1)
+      dshad("second: "..self.parts[2][1].." or "..self.parts[2][2], x, y+10, 12, 1)
+      dshad("third: "..self.parts[3][1].." or "..self.parts[3][2], x, y+20, 12, 1)
     end
   }
 }

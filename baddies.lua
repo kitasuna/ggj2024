@@ -39,7 +39,7 @@ baddie_mngr = {
           offset_x = rnd(4) - 2
           offset_y = rnd(4) - 2
         end
-        print(v.reaction, v.x + 5 + offset_x, v.y - 5 + offset_y, 7)
+        print(v.reaction, v.x + 5 + offset_x, v.y - 5 + offset_y, 14)
       end
     end
   end,
