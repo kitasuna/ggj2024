@@ -20,11 +20,7 @@ input = {
     end
   end,
   movedown = function(self)
-    printh("current index: "..self.current_index)
-    printh("length of indexes: "..#self.indexes)
-    printh("before index[ci]: "..self.indexes[self.current_index])
     self.indexes[self.current_index] -= 1
-    printh("after index[ci]: "..self.indexes[self.current_index])
     if self.indexes[self.current_index] < 0 then
       self.indexes[self.current_index] = #self.charset
     end
@@ -44,9 +40,9 @@ input = {
   draw = function(self, x, y)
     for i=1,#self.indexes do 
       if self.indexes[i] != 0 then
-        print(self.charset[self.indexes[i]], x + (i * 10), y)
+        print(self.charset[self.indexes[i]], x + (i * 10), y+2, 7)
       else 
-        line(x + (i * 10), y + 4, x + 8 + (i * 10), y + 4) 
+        line(x + (i * 10), y + 4, x + 8 + (i * 10), y + 4, 7) 
       end
     end
     spr(16, x + (self.current_index*10), y + 8)
@@ -57,12 +53,14 @@ input = {
   end,
   submit = function(self)
     local result = {}
+    local result_str = ""
     for k,v in pairs(self.indexes) do 
       if v != 0 then
         result[k] = self.charset[v]
+        result_str = result_str..self.charset[v]
       end
     end
     self:reset()
-    return result
+    return result, result_str
   end,
 }
