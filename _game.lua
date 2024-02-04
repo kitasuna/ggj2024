@@ -256,7 +256,7 @@ function change_state(new_state)
     _showtime_remaining_timer = SHOWTIME_TIMER
     __init()
   elseif new_state == STATE_EXPLORE then
-    music(0, 500)
+    music(2, 500)
     _current_state = new_state
     _showtime_remaining_timer = SHOWTIME_TIMER
   elseif new_state == STATE_GAMEOVER then
