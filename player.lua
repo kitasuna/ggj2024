@@ -14,8 +14,8 @@ player = {
   update = function(self, bits, dt)
     if btn(0) then
       self.x -= 0.5
-      if self.x < 12 then
-        self.x = 12
+      if self.x < 20 then
+        self.x = 20
       end
       self.direction = 0
     end
