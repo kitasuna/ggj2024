@@ -28,8 +28,7 @@ gs = {
     end,
     check = function(self, xs)
       for k,v in pairs(xs) do 
-        if not elem(v, self.parts[((k-1) % 3) + 1]) then 
-          -- printh("Couldnt find "..v.." in parts "..((k - 1) % 3))
+        if not elem(self.parts[((k-1) % 3) + 1], v) then 
           return false
         end
       end
@@ -45,13 +44,50 @@ gs = {
       dshad("second: "..self.parts[2][1].." or "..self.parts[2][2], x, y+10, 12, 1)
       dshad("third: "..self.parts[3][1].." or "..self.parts[3][2], x, y+20, 12, 1)
     end
+  },
+  {
+    name = "headstails",
+    heads = {},
+    tails = {},
+    init = function(self, xs)
+      self.heads = {xs[1], xs[2]}
+      self.tails = {xs[5], xs[6]}
+      self.all = xs
+    end,
+    gen = function(self, tgt_length)
+      -- head first
+      str = self.heads[1 + flr(rnd(2))]
+      for i=2,tgt_length do
+        -- pick one of the first chars 
+        str = str..self.all[1 + flr(rnd(#self.all))]
+      end 
+      str = str..self.tails[1 + flr(rnd(2))]
+      return str
+    end,
+    check = function(self, xs)
+      if #xs < 2 then
+        return false
+      end
+      if not elem(self.heads, xs[1]) or not elem(self.tails, xs[#xs]) then
+          return false
+      end
+      return true
+    end,
+    debug = function(self)
+      printh("self.heads: "..self.heads[1]..","..self.heads[2])
+      printh("self.tails: "..self.tails[1]..","..self.tails[2])
+    end,
+    explain = function(self, x, y)
+      dshad("first: "..self.heads[1].." or "..self.heads[2], x, y, 12, 1)
+      dshad("last: "..self.tails[1].." or "..self.tails[2], x, y+10, 12, 1)
+    end
   }
 }
 
 chatter = { 
 }
 
-function elem(e, tbl)
+function elem(tbl, e)
   for v in all(tbl) do 
     if e == v then
       return true

@@ -8,10 +8,10 @@ function _showtime_draw()
   palt(11, true)
 
   for k, v in pairs(fx.stars) do 
-    pset(v.x, v.y, 7)
+    pset(v.x, v.y, rnd() > 0.9 and 10 or 7)
   end
 
-  map(0,0,8,24,14,13)
+  map(0,0,16,24,14,13)
 
   -- input guy
   input:draw(6, 112)
@@ -20,7 +20,7 @@ function _showtime_draw()
   baddie_mngr:draw()
 
   -- showtime banner
-  spr(64, 20, 0, 10, 2)
+  spr(64, 27, 6, 10, 2)
 
   -- our hero
   spr(32, _showtime_hero_params[_showtime_hero_index + 1], 114, 1, 1, _showtime_hero_index == 1 and true or false)
@@ -28,9 +28,10 @@ function _showtime_draw()
   spr(75, _showtime_mic_params[_showtime_hero_index + 1], 114, 1, 1, _showtime_hero_index == 1 and true or false)
 
   -- time limit
-  rect(32,17,94,22,7)
-  -- 60 px wide
-  rectfill(33,18,93 - (SHOWTIME_TIMER - _showtime_current_timer),21,14)
+  rect(8,84,13,24,7)
+  -- 60 px high
+  rectfill(9,83,12,25 + (SHOWTIME_TIMER - _showtime_current_timer),14)
+  spr(91, 7, 86)
 
   dshad("score: ".._score, 84, 122, 7, 8)
   palt()
@@ -42,10 +43,23 @@ function _explore_draw()
   palt(11, true)
 
   for k, v in pairs(fx.stars) do 
-    pset(v.x, v.y, 7)
+    pset(v.x, v.y, rnd() > 0.9 and 10 or 7)
   end
 
-  map(0,0,8,24,14,13)
+  map(0,0,16,24,14,13)
+
+  -- time limit
+  rect(8,84,13,24,7)
+  -- 60 px high
+  rectfill(9,83,12,25 + (SHOWTIME_TIMER - _showtime_remaining_timer),14)
+  spr(91, 7, 86)
+
+  dshad("press "..BUTTON_X.." or "..BUTTON_O, 30, 115, 7, 8)
+  dshad("to start showtime!", 30, 121, 7, 8)
+
+  foreach(fx.parts, function(p)
+    p:draw()
+  end)
 
   -- player
   player:draw()
@@ -53,17 +67,6 @@ function _explore_draw()
   -- baddies
   baddie_mngr:draw()
 
-  -- time limit
-  rect(32,17,94,22,7)
-  -- 60 px wide
-  rectfill(33,18,93 - (SHOWTIME_TIMER - _showtime_remaining_timer),21,14)
-
-  dshad("press ❎ or 🅾️ ", 30, 115, 7, 8)
-  dshad("to start showtime!", 30, 121, 7, 8)
-
-  foreach(fx.parts, function(p)
-    p:draw()
-  end)
 
   palt()
 end
@@ -77,7 +80,7 @@ function _gameover_draw()
   dshad("score: ".._score, 48, 40, 7, 8)
 
   dshad("grammar solution!", 32, 72, 12, 1)
-  gs[1]:explain(32, 82)
+  _grammar:explain(32, 82)
 
   palt()
 end
@@ -163,9 +166,9 @@ function _showtime_update(dt)
   if btnp(5) then
     local joined, joined_str = input:submit() 
     if #joined > 0 then
-      local result = gs[1]:check(joined)
+      local result = _grammar:check(joined)
       if result then
-        if not elem(joined_str, _guesses) then
+        if not elem(_guesses, joined_str) then
           _score += #joined * 5
           baddie_mngr:react("haha")
           sfx(24)
@@ -222,14 +225,14 @@ end
 function _title_draw()
   cls()
   for k, v in pairs(fx.stars) do 
-    pset(v.x, v.y, 7)
+    pset(v.x, v.y, rnd() > 0.9 and 1 or 7)
   end
   map(20,0,24,30,11,4)
-  dshad("press any button to start", 18, 90, 7, 8)
-
+  --dshad("press "..BUTTON_X.." or "..BUTTON_O.." to start", 18, 90, 7, 8)
+  fx.cyclers[1]:draw(18, 90)
 end
 
-function _title_update()
+function _title_update(dt)
   if btnp(4) or btnp(5) then
     change_state(STATE_EXPLORE)
   end
@@ -237,6 +240,8 @@ function _title_update()
   if rnd() > 0.7 then
     add(fx.stars, {x=130, y=flr(rnd(120)), dx=rnd()})
   end
+
+  fx.cyclers[1]:update(dt)
 
   for k, v in pairs(fx.stars) do 
     v.x -= v.dx
@@ -254,7 +259,7 @@ function change_state(new_state)
     _showtime_remaining_timer = SHOWTIME_TIMER
     __init()
   elseif new_state == STATE_EXPLORE then
-    music(0, 500)
+    music(2, 500)
     _current_state = new_state
     _showtime_remaining_timer = SHOWTIME_TIMER
   elseif new_state == STATE_GAMEOVER then
