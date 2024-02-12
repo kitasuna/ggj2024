@@ -11,7 +11,7 @@ function _showtime_draw()
     pset(v.x, v.y, rnd() > 0.9 and 10 or 7)
   end
 
-  map(0,0,16,24,14,13)
+  map(0,0,16,24,14,12)
 
   -- input guy
   input:draw(6, 112)
@@ -28,10 +28,10 @@ function _showtime_draw()
   spr(75, _showtime_mic_params[_showtime_hero_index + 1], 114, 1, 1, _showtime_hero_index == 1 and true or false)
 
   -- time limit
-  rect(8,84,13,24,7)
-  -- 60 px high
-  rectfill(9,83,12,25 + (SHOWTIME_TIMER - _showtime_current_timer),14)
-  spr(91, 7, 86)
+  -- Border is 62 px high, to accommodae 60px of filled meter
+  rect(8,86,13,24,7)
+  rectfill(9,85,12,25 + (SHOWTIME_TIMER - _showtime_current_timer),14)
+  spr(91, 7, 88)
 
   dshad("score: ".._score, 84, 122, 7, 8)
   palt()
@@ -46,7 +46,7 @@ function _explore_draw()
     pset(v.x, v.y, rnd() > 0.9 and 10 or 7)
   end
 
-  map(0,0,16,24,14,13)
+  map(0,0,16,24,14,12)
 
   -- time limit
   rect(8,84,13,24,7)
@@ -159,10 +159,6 @@ function _showtime_update(dt)
     input:movedown()
   end
 
-  if btnp(4) then
-    input:reset()
-  end
-
   if btnp(5) then
     local joined, joined_str = input:submit() 
     if #joined > 0 then
@@ -175,14 +171,10 @@ function _showtime_update(dt)
           add(timers, {
             ttl = 1.2,
             f = function()
-              printh("silencing sound")
               sfx(24, -2) 
             end,
             })
           add(_guesses, joined_str)
-          for k, v in pairs(_guesses) do 
-            printh(k.." guess: "..v)
-          end
         else -- repeat
           _score += 1
           baddie_mngr:react("ha...")
@@ -190,7 +182,6 @@ function _showtime_update(dt)
           add(timers, {
             ttl = 1.2,
             f = function()
-              printh("silencing sound")
               sfx(25, -2) 
             end,
             })
@@ -202,7 +193,6 @@ function _showtime_update(dt)
           add(timers, {
             ttl = 1.2,
             f = function()
-              printh("silencing sound")
               sfx(26, -2) 
             end,
             })
