@@ -84,9 +84,6 @@ gs = {
   }
 }
 
-chatter = { 
-}
-
 function elem(tbl, e)
   for v in all(tbl) do 
     if e == v then

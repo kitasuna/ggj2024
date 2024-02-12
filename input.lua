@@ -32,6 +32,10 @@ input = {
     end
   end,
   moveright = function(self)
+    -- Don't allow to move to next slot if this one is empty
+    if self.indexes[self.current_index] == 0 then
+      return
+    end
     self.current_index = self.current_index + 1
     if self.current_index > #self.indexes then
       self.current_index = 1
