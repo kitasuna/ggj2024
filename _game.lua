@@ -5,27 +5,34 @@ _showtime_hero_ttl = 3
 _guesses = {}
 function _showtime_draw()
   cls()
-  palt(11, true)
 
   for k, v in pairs(fx.stars) do 
     pset(v.x, v.y, rnd() > 0.9 and 10 or 7)
   end
 
-  map(0,0,16,24,14,12)
+  palt(0, false)
+  map(0,12,16,24,12,19)
+  palt()
+
+  palt(11, true)
 
   -- input guy
-  input:draw(6, 112)
+  input:draw(24, 96)
 
   -- baddies
   baddie_mngr:draw()
 
   -- showtime banner
-  spr(64, 27, 6, 10, 2)
+  spr(64, 20, 6, 10, 2)
 
-  -- our hero
-  spr(32, _showtime_hero_params[_showtime_hero_index + 1], 114, 1, 1, _showtime_hero_index == 1 and true or false)
-  -- our hero's microphone
-  spr(75, _showtime_mic_params[_showtime_hero_index + 1], 114, 1, 1, _showtime_hero_index == 1 and true or false)
+  -- stage
+  spr(137, 24, 44, 4, 4)
+  -- hero
+  spr(32, 40, 52)
+  -- mic
+  palt(0, false)
+  spr(76, 48, 52)
+  palt()
 
   -- time limit
   -- Border is 62 px high, to accommodae 60px of filled meter
@@ -33,7 +40,7 @@ function _showtime_draw()
   rectfill(9,85,12,25 + (SHOWTIME_TIMER - _showtime_current_timer),14)
   spr(91, 7, 88)
 
-  dshad("score: ".._score, 84, 122, 7, 8)
+  dshad("giggles: ".._score, 42, 115, 7, 8)
   palt()
 end
 
@@ -77,7 +84,7 @@ function _gameover_draw()
   palt(11, true)
 
   dshad("bravo!", 48, 32, 7, 8)
-  dshad("score: ".._score, 48, 40, 7, 8)
+  dshad("giggles: ".._score, 48, 40, 7, 8)
 
   dshad("grammar solution!", 32, 72, 12, 1)
   _grammar:explain(32, 82)
@@ -177,7 +184,7 @@ function _showtime_update(dt)
           add(_guesses, joined_str)
         else -- repeat
           _score += 1
-          baddie_mngr:react("ha...")
+          baddie_mngr:react("ha…")
           sfx(25)
           add(timers, {
             ttl = 1.2,
@@ -188,7 +195,7 @@ function _showtime_update(dt)
         end
       -- failed, give a "..."
       else
-        baddie_mngr:react("...")
+        baddie_mngr:react("…\n…\n…")
           sfx(26)
           add(timers, {
             ttl = 1.2,
@@ -220,6 +227,8 @@ function _title_draw()
   map(20,0,24,30,11,4)
   --dshad("press "..BUTTON_X.." or "..BUTTON_O.." to start", 18, 90, 7, 8)
   fx.cyclers[1]:draw(18, 90)
+
+  byline(5)
 end
 
 function _title_update(dt)
@@ -243,6 +252,12 @@ function change_state(new_state)
     _current_state = new_state
     _showtime_current_timer = _showtime_remaining_timer
     _showtime_hero_ttl = 3
+    -- change baddie locations
+    local locations = {{74, 49},{80,38},{87,53},{78,63},{89,72}}
+    for k, v in pairs(baddie_mngr.baddies) do 
+      v.x, v.y = locations[k][1],locations[k][2]
+      v.flip = true
+    end
     _guesses = {}
   elseif new_state == STATE_TITLE then
     _current_state = new_state
