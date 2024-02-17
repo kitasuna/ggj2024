@@ -40,7 +40,7 @@ function _showtime_draw()
   rectfill(9,85,12,25 + (SHOWTIME_TIMER - _showtime_current_timer),14)
   spr(91, 7, 88)
 
-  dshad("giggles: ".._score, 42, 115, 7, 8)
+  dshad("giggles: ".._score, 42, 115, 7, 5)
   palt()
 end
 
@@ -53,7 +53,7 @@ function _explore_draw()
     pset(v.x, v.y, rnd() > 0.9 and 10 or 7)
   end
 
-  map(0,0,16,24,14,12)
+  map(0,0,16,16,14,12)
 
   -- time limit
   rect(8,84,13,24,7)
@@ -61,8 +61,19 @@ function _explore_draw()
   rectfill(9,83,12,25 + (SHOWTIME_TIMER - _showtime_remaining_timer),14)
   spr(91, 7, 86)
 
-  dshad("press "..BUTTON_X.." or "..BUTTON_O, 30, 115, 7, 8)
-  dshad("to start showtime!", 30, 121, 7, 8)
+  dshad(BUTTON_O..": notebook", 30, 106, 7, 5)
+
+  local x_offset, y_offset = 0, 0
+  if btn(5) then
+    x_offset = flr(rnd(2) - 1)
+    y_offset = flr(rnd(2) - 1)
+  end
+  local str = BUTTON_X..": hold for showtime"
+  local prefix = sub(str, 1, flr(#str * (showtime_bucket / 80)))
+  dshad(str, 30 + x_offset, 113 + y_offset, 7, 5)
+  if btn(5) then
+    print(prefix, 30 + x_offset, 113 + y_offset, 14)
+  end
 
   foreach(fx.parts, function(p)
     p:draw()
@@ -127,8 +138,20 @@ function _explore_update(dt)
     end
   end)
 
-  if btnp(4) or btnp(5) then
-    change_state(STATE_SHOWTIME)
+  if btn(5) then
+    showtime_bucket += 1
+    if showtime_bucket >= 90 then
+      change_state(STATE_SHOWTIME)
+    end
+  elseif showtime_bucket > 0 then
+    showtime_bucket -= 3 
+    if showtime_bucket < 0 then
+      showtime_bucket = 0
+    end
+  end
+
+  if btnp(4) then
+    -- notebook
   end
 
 end

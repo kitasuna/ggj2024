@@ -63,16 +63,18 @@ function __init()
 
   -- give baddies some dialog
   baddie_mngr:init()
-  baddie_mngr:add(40, 33, false, _dialog[1])
-  baddie_mngr:add(70, 64, true, _dialog[2])
-  baddie_mngr:add(102, 40, true, _dialog[3])
-  baddie_mngr:add(23, 70, false, _dialog[4])
-  baddie_mngr:add(104, 85, false, _dialog[5])
+  baddie_mngr:add(40, 25, false, _dialog[1])
+  baddie_mngr:add(70, 56, true, _dialog[2])
+  baddie_mngr:add(102, 32, true, _dialog[3])
+  baddie_mngr:add(23, 62, false, _dialog[4])
+  baddie_mngr:add(104, 78, false, _dialog[5])
 
   -- player
   player:init()
 
   fx.cyclers[1] = new_cycler("press "..BUTTON_X.." or "..BUTTON_O.." to start", 0.1, {6, 14, 8, 2})
+
+  showtime_bucket = 0
 end
 
 function _update60()
