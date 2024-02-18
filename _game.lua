@@ -2,6 +2,7 @@ _showtime_hero_params = {0, 80}
 _showtime_mic_params = {4, 76}
 _showtime_hero_index = 0
 _showtime_hero_ttl = 3
+_notebook = {}
 _guesses = {}
 function _showtime_draw()
   cls()
@@ -40,7 +41,7 @@ function _showtime_draw()
   rectfill(9,85,12,25 + (SHOWTIME_TIMER - _showtime_current_timer),14)
   spr(91, 7, 88)
 
-  dshad("giggles: ".._score, 42, 115, 7, 5)
+  dshad("giggles: ".._score, 42, 115, 7, 2)
   palt()
 end
 
@@ -61,7 +62,7 @@ function _explore_draw()
   rectfill(9,83,12,25 + (SHOWTIME_TIMER - _showtime_remaining_timer),14)
   spr(91, 7, 86)
 
-  dshad(BUTTON_O..": notebook", 30, 106, 7, 5)
+  dshad(BUTTON_O..": notebook", 30, 106, 7, 2)
 
   local x_offset, y_offset = 0, 0
   if btn(5) then
@@ -70,7 +71,7 @@ function _explore_draw()
   end
   local str = BUTTON_X..": hold for showtime"
   local prefix = sub(str, 1, flr(#str * (showtime_bucket / 80)))
-  dshad(str, 30 + x_offset, 113 + y_offset, 7, 5)
+  dshad(str, 30 + x_offset, 113 + y_offset, 7, 2)
   if btn(5) then
     print(prefix, 30 + x_offset, 113 + y_offset, 14)
   end
@@ -89,13 +90,58 @@ function _explore_draw()
   palt()
 end
 
+function _notebook_update(dt)
+  local bits = btn()
+
+  fx.msgbox:update(dt)
+  if btnp(4) then
+    -- notebook close
+    fx.msgbox = nil
+    change_state(STATE_EXPLORE)
+  end
+end
+
+function _notebook_draw()
+  cls()
+  
+  palt(11, true)
+
+  for k, v in pairs(fx.stars) do 
+    pset(v.x, v.y, rnd() > 0.9 and 10 or 7)
+  end
+
+  map(0,0,16,16,14,12)
+
+  -- time limit
+  rect(8,84,13,24,7)
+  -- 60 px high
+  rectfill(9,83,12,25 + (SHOWTIME_TIMER - _showtime_remaining_timer),14)
+  spr(91, 7, 86)
+
+  dshad(BUTTON_O..": close notebook", 30, 106, 7, 2)
+
+  foreach(fx.parts, function(p)
+    p:draw()
+  end)
+
+  -- player
+  player:draw()
+
+  -- baddies
+  baddie_mngr:draw()
+
+  -- notebook
+  fx.msgbox:draw()
+
+  palt()
+end
+
 function _gameover_draw()
   cls()
 
   palt(11, true)
 
-  dshad("bravo!", 48, 32, 7, 8)
-  dshad("giggles: ".._score, 48, 40, 7, 8)
+  dshad("bravo!\ngiggles: ".._score, 48, 32, 7, 2)
 
   dshad("grammar solution!", 32, 72, 12, 1)
   _grammar:explain(32, 82)
@@ -151,7 +197,15 @@ function _explore_update(dt)
   end
 
   if btnp(4) then
+    -- generate guess string
+    local str = "notes:\n"
+    for v in all(_notebook) do
+
+      str = str..v.."\n" 
+    end
     -- notebook
+    fx.msgbox = new_msgbox(34, 34, 104, 84, 0.2, str)
+    change_state(STATE_NOTEBOOK)
   end
 
 end
@@ -248,7 +302,6 @@ function _title_draw()
     pset(v.x, v.y, rnd() > 0.9 and 1 or 7)
   end
   map(20,0,24,30,11,4)
-  --dshad("press "..BUTTON_X.." or "..BUTTON_O.." to start", 18, 90, 7, 8)
   fx.cyclers[1]:draw(18, 90)
 
   byline(5)
@@ -289,7 +342,8 @@ function change_state(new_state)
   elseif new_state == STATE_EXPLORE then
     music(2, 500)
     _current_state = new_state
-    _showtime_remaining_timer = SHOWTIME_TIMER
+  elseif new_state == STATE_NOTEBOOK then
+    _current_state = new_state
   elseif new_state == STATE_GAMEOVER then
     music(-1, 500)
     _current_state = new_state

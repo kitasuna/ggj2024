@@ -77,7 +77,9 @@ baddie_mngr = {
               add(fx.parts, new_part(11, 25 + (SHOWTIME_TIMER - _showtime_remaining_timer), 1, -2, {7,8,14}, 2, 0.8))
             end
             v.spoke = true
+            -- Nasty global stuff
             _showtime_remaining_timer -= 2 * #v.message 
+            add(_notebook, v.message)
           end
         end
       end

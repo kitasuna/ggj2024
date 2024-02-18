@@ -2,6 +2,7 @@ fx = {
   parts = {},
   stars = {},
   cyclers = {},
+  msgbox = nil,
 }
 
 function new_cycler(str, cycle_ttl, colors) 
