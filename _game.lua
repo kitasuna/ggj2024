@@ -387,6 +387,7 @@ end
 
 function _title_update(dt)
   if btnp(4) or btnp(5) then
+    music(1, 500)
     change_state(STATE_EXPLORE)
   end
 
@@ -418,7 +419,6 @@ function change_state(new_state)
     _showtime_remaining_timer = SHOWTIME_TIMER
     __init()
   elseif new_state == STATE_EXPLORE then
-    music(2, 500)
     _current_state = new_state
   elseif new_state == STATE_NOTEBOOK then
     _current_state = new_state
