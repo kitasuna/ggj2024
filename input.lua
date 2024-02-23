@@ -26,9 +26,8 @@ input = {
     end
   end,
   moveleft = function(self)
-    self.current_index = self.current_index - 1
-    if self.current_index < 1 then
-      self.current_index = #self.indexes
+    if self.current_index > 1 then
+      self.current_index = self.current_index - 1
     end
   end,
   moveright = function(self)
@@ -36,9 +35,8 @@ input = {
     if self.indexes[self.current_index] == 0 then
       return
     end
-    self.current_index = self.current_index + 1
-    if self.current_index > #self.indexes then
-      self.current_index = 1
+    if self.current_index < #self.indexes then
+      self.current_index = self.current_index + 1
     end
   end,
   draw = function(self, x, y)
