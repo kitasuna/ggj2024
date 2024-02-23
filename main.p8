@@ -72,7 +72,7 @@ function __init()
   baddie_mngr:add(104, 78, false, _dialog[5])
 
   -- player
-  player:init()
+  player:init(INPUT_BLOCKBTN)
   _guesses = {}
   _notebook = {}
 

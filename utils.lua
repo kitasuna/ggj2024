@@ -16,7 +16,6 @@ function new_msgbox(x, y, max_x, max_y, ttmax, str)
       rectfill(x,y,mid(6,finish_x,max_x),mid(30,finish_y,max_y),6) 
       rectfill(x+2,y+2,mid(8,finish_x,max_x)-2,mid(32,finish_y,max_y)-2,5) 
       if self.elapsed >= ttmax then
-        -- local new_str = sub(str, 1, mid(1, msg_box_fc * 2, #str))
         dshad(str, x+4, y+4, 7, 2)
       end
     end,

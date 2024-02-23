@@ -40,8 +40,6 @@ baddie_mngr = {
           offset_y = rnd(3) - 2
         end
         local r_offset = text_offset(v.reaction)
-        -- rect(v.x - 1 - r_offset, v.y-8, v.x + 9 + r_offset, v.y, 7)
-        -- rectfill(v.x - r_offset, v.y-7, v.x + 8 + r_offset, v.y-1, 14)
         print(v.reaction, v.x + 10 + offset_x - r_offset, v.y - 6 + offset_y, 7)
       end
     end

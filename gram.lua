@@ -40,9 +40,9 @@ gs = {
       printh("self.p3: "..self.parts[3][1]..","..self.parts[3][2])
     end,
     explain = function(self, x, y)
-      dshad("first: "..self.parts[1][1].." or "..self.parts[1][2], x, y, 12, 1)
-      dshad("second: "..self.parts[2][1].." or "..self.parts[2][2], x, y+10, 12, 1)
-      dshad("third: "..self.parts[3][1].." or "..self.parts[3][2], x, y+20, 12, 1)
+      dshad("1st/4th: "..self.parts[1][1].." or "..self.parts[1][2], x, y, 12, 1)
+      dshad("2nd/5th: "..self.parts[2][1].." or "..self.parts[2][2], x, y+10, 12, 1)
+      dshad("3rd/6th: "..self.parts[3][1].." or "..self.parts[3][2], x, y+20, 12, 1)
     end
   },
   {

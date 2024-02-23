@@ -118,24 +118,23 @@ function _explore_draw()
   dshad(BUTTON_O..": notebook", 30, 106, 7, 2)
 
   local x_offset, y_offset = 0, 0
-  if btn(5) then
+  local bits = btn() & player.allowed_inputs
+  if isset(bits, 5) then
     x_offset = flr(rnd(2) - 1)
     y_offset = flr(rnd(2) - 1)
   end
   local str = BUTTON_X..": hold for showtime"
   local prefix = sub(str, 1, flr(#str * (showtime_bucket / 80)))
   dshad(str, 30 + x_offset, 113 + y_offset, 7, 2)
-  if btn(5) then
+  if isset(bits,5) then
     print(prefix, 30 + x_offset, 113 + y_offset, 14)
   end
-
 
   -- player
   player:draw()
 
   -- baddies
   baddie_mngr:draw()
-
 
   palt()
 end
@@ -159,7 +158,6 @@ function _notebookst_update(dt)
     -- notebook close
     fx.msgbox = nil
     -- doing this manually to avoid all the init code in change_state
-    printh("back to showtime!")
     _current_state = STATE_SHOWTIME
   end
 end
@@ -173,8 +171,11 @@ function _notebook_draw()
     pset(v.x, v.y, rnd() > 0.9 and 10 or 7)
   end
 
+  palt(0, false)
   map(0,0,16,16,14,12)
+  palt()
 
+  palt(11, true)
   -- time limit
   rect(8,84,13,24,7)
   -- 60 px high
@@ -247,7 +248,8 @@ function _explore_update(dt)
     end
   end)
 
-  if btn(5) then
+  local bits = btn() & player.allowed_inputs
+  if isset(bits, 5) then
     showtime_bucket += 1
     if showtime_bucket >= 90 then
       change_state(STATE_SHOWTIME)
@@ -259,11 +261,11 @@ function _explore_update(dt)
     end
   end
 
-  if btnp(4) then
+  local bitsp = btnp() & player.allowed_inputs
+  if isset(bitsp, 4) then
     -- generate string with seen hints
     local str = "  -- notes --\n"
     for v in all(_notebook) do
-
       str = str..v.."\n" 
     end
     str = str.."\n"..BUTTON_O.." close"
@@ -352,7 +354,6 @@ function _showtime_update(dt)
     -- generate string with seen hints
     local str = "  -- notes --\n"
     for v in all(_notebook) do
-
       str = str..v.."\n" 
     end
     str = str.."\n"..BUTTON_O.." close"
