@@ -36,10 +36,11 @@ baddie_mngr = {
         local offset_x = 0
         local offset_y = 0
         if v.reaction == "haha" then
-          offset_x = rnd(4) - 2
-          offset_y = rnd(4) - 2
+          offset_x = rnd(3) - 2
+          offset_y = rnd(3) - 2
         end
-        print(v.reaction, v.x + 5 + offset_x, v.y - 5 + offset_y, 14)
+        local r_offset = text_offset(v.reaction)
+        print(v.reaction, v.x + 10 + offset_x - r_offset, v.y - 6 + offset_y, 7)
       end
     end
   end,
@@ -74,7 +75,9 @@ baddie_mngr = {
               add(fx.parts, new_part(11, 25 + (SHOWTIME_TIMER - _showtime_remaining_timer), 1, -2, {7,8,14}, 2, 0.8))
             end
             v.spoke = true
+            -- Nasty global stuff
             _showtime_remaining_timer -= 2 * #v.message 
+            add(_notebook, v.message)
           end
         end
       end
